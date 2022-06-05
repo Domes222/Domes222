@@ -1,0 +1,112 @@
+import sys
+
+
+def add_time(start_time, added_time, day="digga"):
+    splited_time = start_time.split(":")[1]
+    am_pm = splited_time.split()[1].upper()
+    start_hour = start_time.split(":")[0]
+    start_minutes = splited_time.split()[0]
+    added_hours = added_time.split(":")[0]
+    added_minutes = added_time.split(":")[1]
+    minutes = int(start_minutes) + int(added_minutes)
+    days_later = 0
+    k = 0
+    day_after = ""
+    if day == "digga":
+        k = -1
+    elif day == "Monday":
+        k = 1
+    elif day == "Tuesday":
+        k = 2
+    elif day == "Wednesday":
+        k = 3
+    elif day == "Thursday":
+        k = 4
+    elif day == "Friday":
+        k = 5
+    elif day == "Saturday":
+        k = 6
+    elif day == "Sunday":
+        k = 7
+    else:
+        print("Error: Not a valid day in the week")
+        sys.exit()
+
+    if minutes >= 60:
+        added_hours = int(added_hours) + 1
+        minutes = int(minutes) - 60
+    hours = int(added_hours) + int(start_hour)
+
+    while hours > 12:
+        if hours > 12 and am_pm == "AM":
+            am_pm = "PM"
+            hours = int(hours) - 12
+        elif hours > 12 and am_pm == "PM":
+            am_pm = "AM"
+            hours = int(hours) - 12
+            days_later = days_later + 1
+
+    if hours == 12 and am_pm == "AM":
+        am_pm = "PM"
+    elif hours == 12 and am_pm == "PM":
+        am_pm = "AM"
+        days_later = days_later + 1
+    line1 = str(hours) + ":" + "0" + str(minutes) + " " + am_pm
+    line2 = str(hours) + ":" + str(minutes) + " " + am_pm
+
+    if k == -1:
+        if days_later > 1:
+            if minutes < 10:
+                print(line1 + " " + "(" + str(days_later) + " days later)")
+            else:
+                print(line2 + " " + "(" + str(days_later) + " days later)")
+        elif days_later == 1:
+            if minutes < 10:
+                print(line1 + " " + "(Next day)")
+            else:
+                print(line2 + " " + "(Next day)")
+        else:
+            if minutes < 10:
+                print(line1)
+            else:
+                print(line2)
+    elif k > 0:
+        while days_later > 0:
+            if k < 7:
+                k = k + 1
+            elif k == 7:
+                k = 1
+            days_later = days_later - 1
+
+        if k == 1:
+            day_after = "Monday"
+        elif k == 2:
+            day_after = "Tuesday"
+        elif k == 3:
+            day_after = "Wednesday"
+        elif k == 4:
+            day_after = "Thursday"
+        elif k == 5:
+            day_after = "Friday"
+        elif k == 6:
+            day_after = "Saturday"
+        elif k == 7:
+            day_after = "Sunday"
+
+        if minutes < 10:
+            print(line1 + " " + day_after)
+        else:
+            print(line2 + " " + day_after)
+
+
+
+
+
+
+
+
+
+
+
+add_time("11:30 PM", "2:32", "Monday")
+
